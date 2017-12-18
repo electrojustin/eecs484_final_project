@@ -8,7 +8,7 @@ from tensorflow.examples.tutorials.mnist import input_data
 mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
 from sklearn.cluster import KMeans
 
-num_categories = 50 #CHANGE ME
+num_categories = 5 #CHANGE ME
 
 y_ = tf.placeholder(tf.float32, [None, 10])
 x = tf.placeholder(tf.float32, [None, 784])
@@ -17,13 +17,23 @@ def create_base_model(kernel_weights1, kernel_bias1, kernel_weights2, kernel_bia
     #Builds the network again
     
     #We're re-training the convolution layers, so make these variables
+
     W_conv1 = tf.Variable(kernel_weights1)
     b_conv1 = tf.Variable(kernel_bias1)
+    #Comment out the above lines and uncomment the following to test random initial kernels
+    #W_conv1 = conv_helper.weight_variable([5, 5, 1, 32])
+    #b_conv1 = conv_helper.bias_variable([32])
+    
     x_image = tf.reshape(x, [-1, 28, 28, 1])
     h_conv1 = tf.nn.leaky_relu(conv_helper.conv2d(x_image, W_conv1) + b_conv1)
     h_pool1 = conv_helper.max_pool_2x2(h_conv1)
+    
     W_conv2 = tf.Variable(kernel_weights2)
     b_conv2 = tf.Variable(kernel_bias2)
+    #Comment out the above lines and uncomment the following to test random initial kernels   
+    #W_conv2 = conv_helper.weight_variable([5, 5, 32, 64])
+    #b_conv2 = conv_helper.bias_variable([64])
+    
     h_conv2 = tf.nn.leaky_relu(conv_helper.conv2d(h_pool1, W_conv2) + b_conv2)
     h_pool2 = conv_helper.max_pool_2x2(h_conv2)
     h_pool2_flat = tf.reshape(h_pool2, [-1, 7*7*64])
