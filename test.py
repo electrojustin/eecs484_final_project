@@ -33,6 +33,9 @@ def create_base_model(kernel_weights1, kernel_bias1, kernel_weights2, kernel_bia
     #Comment out the above lines and uncomment the following to test random initial kernels   
     #W_conv2 = conv_helper.weight_variable([5, 5, 32, 64])
     #b_conv2 = conv_helper.bias_variable([64])
+    #Comment out the above lines and uncomment the following to test only changing one of the convolutional layers
+    #W_conv2 = kernel_weights2
+    #b_conv2 = kernel_bias2
     
     h_conv2 = tf.nn.leaky_relu(conv_helper.conv2d(h_pool1, W_conv2) + b_conv2)
     h_pool2 = conv_helper.max_pool_2x2(h_conv2)
